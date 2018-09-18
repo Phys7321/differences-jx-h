@@ -26,10 +26,6 @@ end
 n=length(x);
 dx = diff(x);
 
-
-
-coefficient_matrix = [0, -1/2, 0, 1/2, 0; 0, 1, -2, 1, 0; ...
-                    -1/2, 2/2, 0/2, -2/2, 1/2; 1, -4, 6, -4, 1];
         
 switch varargin{1}
     case 'fd' 
