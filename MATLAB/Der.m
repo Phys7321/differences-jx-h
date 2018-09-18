@@ -26,6 +26,11 @@ end
 n=length(x);
 dx = diff(x);
 
+
+
+coefficient_matrix = [0, -1/2, 0, 1/2, 0; 0, 1, -2, 1, 0; ...
+                    -1/2, 2/2, 0/2, -2/2, 1/2; 1, -4, 6, -4, 1];
+        
 switch varargin{1}
     case 'fd' 
         dy = (F(x(2:n)) - F(x(1:n-1)))./dx;
@@ -41,6 +46,26 @@ switch varargin{1}
         full = (F(x(1:n-1)+0.5*dx) - F(x(1:n-1)-0.5*dx))./dx;
         dy = (4/3).*half - (1/3).*full;
         xc = chop(x);
+    case 'cd3'
+        h = mean(dx);
+        xc = chop(x);
+        dy = zeros(size(xc));
+        for i_x = 1:numel(xc)
+           xx = xc(i_x);
+           x_list = xx - 2*h : h : xx + 2*h;
+           f_list = F(x_list);
+           dy(i_x) = sum([-1/2, 2/2, 0/2, -2/2, 1/2] .* f_list)/h^3;
+        end
+     case 'cd4'
+        h = mean(dx);
+        xc = chop(x);
+        dy = zeros(size(xc));
+        for i_x = 1:numel(xc)
+           xx = xc(i_x);
+           x_list = xx - 2*h : h : xx + 2*h;
+           f_list = F(x_list);
+           dy(i_x) = sum([1, -4, 6, -4, 1] .* f_list)/h^4;
+        end
     case 'data'
         return;
     otherwise
